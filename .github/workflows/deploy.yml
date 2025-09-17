@@ -1,0 +1,42 @@
+# Name of your workflow
+name: Build and Deploy to GitHub Pages
+
+# Run this workflow on every push to the main branch
+on:
+  push:
+    branches:
+      - main
+
+# A single job called "deploy"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checks out your repository's code
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # 2. Sets up Node.js for the build process
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # 3. Installs dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Builds the React app
+      # The GH_PAGES_HOMEPAGE env variable sets the homepage URL correctly
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_URL: /${{ github.event.repository.name }}
+
+      # 5. Deploys the build folder to the gh-pages branch
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
