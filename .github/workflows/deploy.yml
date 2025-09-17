@@ -7,6 +7,10 @@ on:
     branches:
       - main
 
+# ADD THIS PERMISSIONS BLOCK
+permissions:
+  contents: write
+
 # A single job called "deploy"
 jobs:
   deploy:
@@ -28,11 +32,8 @@ jobs:
         run: npm ci
 
       # 4. Builds the React app
-      # The GH_PAGES_HOMEPAGE env variable sets the homepage URL correctly
       - name: Build
         run: CI=false npm run build
-        env:
-          PUBLIC_URL: /${{ github.event.repository.name }}
 
       # 5. Deploys the build folder to the gh-pages branch
       - name: Deploy
