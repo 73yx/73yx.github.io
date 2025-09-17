@@ -26,6 +26,7 @@ function About(){
                     <h1>Hello and Welcome!</h1>
                     <p>This is Yuexuan Li.</p>
                     <p>Building in progress...</p>
+                    <p>Please feel free to check my links down below!</p>
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                     
                         <IconButton 
